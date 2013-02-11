@@ -7,3 +7,9 @@ Currently there is a PoC of a GMail harvester that is capable of grabbing emails
 Roadmap
 -------
 For the GMail case, the plan is to get the scraper to a state where it is able to dump the email data (with attachments) into a standardized format. Then, we should clean-room implement the GMail interface (or maybe implement [a better one](http://www.vanschneider.com/work/mail/)), perhaps as a skin for RoundCube or other webmail middleware -- needs investigation).
+
+Related work
+------------
+* [GMVault](https://github.com/gaubert/gmvault) has a much more mature GMail ripper than we do.
+* [GMailUI](https://github.com/joscha/gmailui) is a UI toolkit for making GMail-like interfaces.
+* [CSS3.Gmail.Buttons](https://github.com/AdamWhitcroft/CSS3.Gmail.Buttons) implement GMail-like buttons in pure CSS3.
