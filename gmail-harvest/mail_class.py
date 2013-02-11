@@ -1,4 +1,4 @@
-class Mail:
+class Mail(object):
     """A data container for the GMail fetcher"""
 
     uid = None
