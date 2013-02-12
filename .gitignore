@@ -1,2 +1,5 @@
 harvest/credentials.py
 *~
+*.swp
+*.swo
+*.pyc
