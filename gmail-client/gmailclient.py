@@ -142,8 +142,7 @@ class GmailClient:
         try:
             if self.fetch(messages, data=[peekstr + ' RFC822.SIZE']):
                 for m_id in self.response:
-                    fromsubject = self.response[m_id][dictstr]
-                    returnlist[m_id] = fromsubject
+                    returnlist[m_id] = self.response[m_id][dictstr]
 
             self.response = returnlist
 
