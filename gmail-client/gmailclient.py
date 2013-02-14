@@ -102,16 +102,12 @@ class GmailClient:
 
     @connectedAndAuthenticated
     def get_folders(self):
-        ''' Return a list of localised folders
+        ''' Return a list of folders
 
-            uses xlist_folders() instead of list_folders
-            to obtain a localised list of folder names
-
-            Returns list of folders
         '''
 
         try:
-            self.response = self.connection.xlist_folders()
+            self.response = self.connection.list_folders()
         except Exception as e:
             self.response = e.message
             return False
@@ -136,6 +132,8 @@ class GmailClient:
     @connectedAndAuthenticated
     def peek(self, messages):
         ''' Return from and subject for messages
+            from folder currently selected by select_folder
+
         '''
 
         peekstr = 'BODY.PEEK[HEADER.FIELDS (FROM SUBJECT)]'
@@ -159,7 +157,7 @@ class GmailClient:
 
     @connectedAndAuthenticated
     def fetch(self, messages, data=['RFC822','FLAGS'], modifiers=None):
-        ''' Fetch one or more mails according to messages
+        ''' Fetch one or more mails according to messages dict, ie. [1, 55, 32]
 
         '''
 
