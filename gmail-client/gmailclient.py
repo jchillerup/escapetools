@@ -3,6 +3,10 @@
 
     (c) 2013 escapetools crew
 
+    All functions return True on success, False otherwise.
+
+    Server data is read from self.response, as well as error messages.
+
 '''
 
 from imapclient import IMAPClient
@@ -64,7 +68,7 @@ class GmailClient:
         try:
             self.connection = IMAPClient(self.imap_host, port=self.imap_port, ssl=self.imap_use_ssl, use_uid=self.imap_use_uid)
         except Exception as e:
-            print("No connection to server")
+            self.response = "Unable to connect to server : %s" % (e.messages, )
             return False
         else:
             try:
@@ -151,6 +155,7 @@ class GmailClient:
             return False
         else:
             return True
+
 
     @connectedAndAuthenticated
     def fetch(self, messages, data=['RFC822','FLAGS'], modifiers=None):
