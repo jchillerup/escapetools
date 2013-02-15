@@ -19,15 +19,19 @@ def connectedAndAuthenticated(fn):
         before doing anything
     '''
 
-    def wrapper(self, *args, **kwargs):
-        self.response = None
+    doc = 'abc'
 
-        if self.connection and self.loggedIn:
-            return fn(self, *args, **kwargs)
+    def wrapper(this, *args, **kwargs):
+        this.response = None
+        print(this.__doc__)
+
+        if this.connection and this.loggedIn:
+            return fn(this, *args, **kwargs)
         else:
             # Should raise an error
             return 'Not authenticated'
 
+    wrapper.__doc__ = doc
     return wrapper
 
 
@@ -68,7 +72,7 @@ class GmailClient:
         try:
             self.connection = IMAPClient(self.imap_host, port=self.imap_port, ssl=self.imap_use_ssl, use_uid=self.imap_use_uid)
         except Exception as e:
-            self.response = "Unable to connect to server : %s" % (e.messages, )
+            self.response = "Unable to connect to server : %s" % (e.message, )
             return False
         else:
             try:
