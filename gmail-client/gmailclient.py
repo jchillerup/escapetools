@@ -68,7 +68,7 @@ class GmailClient:
         try:
             self.connection = IMAPClient(self.imap_host, port=self.imap_port, ssl=self.imap_use_ssl, use_uid=self.imap_use_uid)
         except Exception as e:
-            self.response = "Unable to connect to server : %s" % (e.messages, )
+            self.response = "Unable to connect to server : %s" % (e.message, )
             return False
         else:
             try:
