@@ -19,11 +19,11 @@ def connectedAndAuthenticated(fn):
         before doing anything
     '''
 
-    def wrapper(self, *args, **kwargs):
-        self.response = None
+    def wrapper(this, *args, **kwargs):
+        this.response = None
 
-        if self.connection and self.loggedIn:
-            return fn(self, *args, **kwargs)
+        if this.connection and this.loggedIn:
+            return fn(this, *args, **kwargs)
         else:
             # Should raise an error
             return 'Not authenticated'
@@ -142,9 +142,11 @@ class GmailClient:
         returnlist = {}
 
         try:
-            if self.fetch(messages, data=[peekstr + ' RFC822.SIZE']):
+            if self.fetch(messages, data=[peekstr, 'RFC822.SIZE', 'FLAGS']):
                 for m_id in self.response:
-                    returnlist[m_id] = self.response[m_id][dictstr]
+                    returnlist[m_id] = {}
+                    returnlist[m_id]['flags'] = self.response[m_id]['FLAGS']
+                    returnlist[m_id]['subjectfrom'] = self.response[m_id][dictstr]
 
             self.response = returnlist
 
