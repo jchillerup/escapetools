@@ -43,4 +43,8 @@ else:
             if g.peek(msg_range):
                 for msg_n in g.response:
                     # Print subject and from
-                    print g.response[msg_n]
+                    # Add a star before unread messages
+                    seen = ' '
+                    if g.response[msg_n]['flags'] == ():
+                        seen = '*'
+                    print('%s %s') % (seen, g.response[msg_n]['subjectfrom'])
