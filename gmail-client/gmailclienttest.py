@@ -39,6 +39,7 @@ else:
             msg_count = g.response['EXISTS']
             msg_range = range(1, int(msg_count)+1)
 
+            print("Fetching messages")
             print("")
             if g.peek(msg_range):
                 for msg_n in g.response:
@@ -48,3 +49,5 @@ else:
                     if g.response[msg_n]['flags'] == ():
                         seen = '*'
                     print('%s %s') % (seen, g.response[msg_n]['subjectfrom'])
+        else:
+            print ("Error in selecting folder %s" % (g.response, ))
