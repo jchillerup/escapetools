@@ -1,4 +1,4 @@
-#encoding=utf8
+# encoding=utf8
 ''' Handle connecting, authentication and communication with gmail
 
     (c) 2013 escapetools crew
@@ -11,12 +11,10 @@
 
 from imapclient import IMAPClient
 
-''' Decorators
-'''
 
 def connectedAndAuthenticated(fn):
-    ''' Ensure we are actually connected to the server
-        before doing anything
+    ''' Decorator
+    Ensure we are actually connected to the server before doing anything
     '''
 
     def wrapper(this, *args, **kwargs):
@@ -31,15 +29,11 @@ def connectedAndAuthenticated(fn):
     return wrapper
 
 
-''' Class definition
-'''
-
 class GmailClient:
     ''' This is our gmail object
 
-        Pass in username and password on init
-        Then call login to connect to server and
-        authenticate
+    Pass in username and password on init.
+    Then call login to connect to server and authenticate.
     '''
 
     def __init__(self, username, password):
@@ -56,30 +50,38 @@ class GmailClient:
 
         self.loggedIn = False
 
-
     def login(self):
         ''' Log in
-            No arguments
+        No arguments
 
-            Returns True on succesful log in
-            Server response can be read from self.response
+        Returns True on succesful log in
+        Server response can be read from self.response
         '''
 
         try:
-            self.connection = IMAPClient(self.imap_host, port=self.imap_port, ssl=self.imap_use_ssl, use_uid=self.imap_use_uid)
+            self.connection = IMAPClient(
+                self.imap_host,
+                port=self.imap_port,
+                ssl=self.imap_use_ssl,
+                use_uid=self.imap_use_uid
+            )
         except Exception as e:
-            self.response = "Unable to connect to server : %s" % (e.message, )
+            self.response = "Unable to connect to server: {0}".format(
+                e.message
+            )
             return False
         else:
             try:
-                self.response = self.connection.login(self.username, self.password)
+                self.response = self.connection.login(
+                    self.username,
+                    self.password
+                )
             except Exception as e:
                 self.response = e.message
                 return False
             else:
                 self.loggedIn = True
                 return True
-
 
     @connectedAndAuthenticated
     def logout(self):
@@ -99,7 +101,6 @@ class GmailClient:
             self.loggedIn = False
             return True
 
-
     @connectedAndAuthenticated
     def get_folders(self):
         ''' Return a list of folders
@@ -114,7 +115,6 @@ class GmailClient:
         else:
             return True
 
-
     @connectedAndAuthenticated
     def select_folder(self, folder):
         ''' Select a folder
@@ -127,7 +127,6 @@ class GmailClient:
             return False
         else:
             return True
-
 
     @connectedAndAuthenticated
     def peek(self, messages):
@@ -146,7 +145,8 @@ class GmailClient:
                 for m_id in self.response:
                     returnlist[m_id] = {}
                     returnlist[m_id]['flags'] = self.response[m_id]['FLAGS']
-                    returnlist[m_id]['subjectfrom'] = self.response[m_id][dictstr]
+                    returnlist[m_id][
+                        'subjectfrom'] = self.response[m_id][dictstr]
 
             self.response = returnlist
 
@@ -156,9 +156,8 @@ class GmailClient:
         else:
             return True
 
-
     @connectedAndAuthenticated
-    def fetch(self, messages, data=['RFC822','FLAGS'], modifiers=None):
+    def fetch(self, messages, data=['RFC822', 'FLAGS'], modifiers=None):
         ''' Fetch one or more mails according to messages dict, ie. [1, 55, 32]
 
         '''
