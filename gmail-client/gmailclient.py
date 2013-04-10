@@ -10,6 +10,7 @@
 '''
 
 from imapclient import IMAPClient
+from getpass import getpass, getuser
 
 
 def connectedAndAuthenticated(fn):
@@ -169,3 +170,78 @@ class GmailClient:
             return False
         else:
             return True
+
+
+class GmailHarvester:
+
+    def __init__(self, *args, **kwargs):
+        self.folders = {}
+
+        self._login()
+
+        # If the authentication fails we want to show the prompt again
+        while not self.gmail.login():
+            print(":: Failed to login - try again:")
+            self._login()
+
+        print(":: Logged in")
+        print("------------")
+
+        self._get_folders()
+        self._show_folders()
+
+    def _login(self):
+        ''' Display login prompt and create `GmailClient`
+        '''
+        user = raw_input('User ({}): '.format(getuser()))
+
+        if user == '':
+            user = getuser()
+
+        password = getpass('Password: ')
+
+        # Create gmail object
+        self.gmail = GmailClient(user, password)
+
+    def _get_folders(self):
+        ''' Get folders from the `GmailClient` and save it in self.folders
+        '''
+        folder_number = 0
+        if self.gmail.get_folders():
+            for folder in self.gmail.response:
+                folder_number += 1
+                self.folders[folder_number] = folder[2]
+
+    def _show_folders(self):
+
+        print(":: Folders:")
+
+        for folder_number, folder_name in self.folders.items():
+            # Display folder name
+            print u'{number}: {name}'.format(
+                number=folder_number,
+                name=folder_name,
+            )
+
+        inspect = int(raw_input("Show messages in folder : "))
+
+        #if self.folders.get(inspect, None):
+            #if self.gmail.select_folder(folders[inspect]):
+                #msg_count = self.gmail.response['EXISTS']
+                #msg_range = range(1, int(msg_count) + 1)
+
+                #print("Fetching messages")
+                #print("")
+                #if self.gmail.peek(msg_range):
+                    #for msg_n in self.gmail.response:
+                        ## Print subject and from
+                        ## Add a star before unread messages
+                        #seen = ' '
+                        #if self.gmail.response[msg_n]['flags'] == ():
+                            #seen = '*'
+                        #print('{} {}').format(
+                            #seen,
+                            #self.gmail.response[msg_n]['subjectfrom']
+                        #)
+        #else:
+            #print ("Error in selecting folder {}".format(self.gmail.response))
