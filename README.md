@@ -22,6 +22,7 @@ Related projects
 * [GMVault](https://github.com/gaubert/gmvault) has a much more mature GMail ripper than we do.
 * [GMailUI](https://github.com/joscha/gmailui) is a UI toolkit for making GMail-like interfaces.
 * [CSS3.Gmail.Buttons](https://github.com/AdamWhitcroft/CSS3.Gmail.Buttons) implement GMail-like buttons in pure CSS3.
+* [FullCalendar](http://arshaw.com/fullcalendar/) implements a good alternative to GCal
 
 Other links
 -----------
