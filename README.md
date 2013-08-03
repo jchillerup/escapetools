@@ -23,6 +23,7 @@ Related projects
 * [GMailUI](https://github.com/joscha/gmailui) is a UI toolkit for making GMail-like interfaces.
 * [CSS3.Gmail.Buttons](https://github.com/AdamWhitcroft/CSS3.Gmail.Buttons) implement GMail-like buttons in pure CSS3.
 * [FullCalendar](http://arshaw.com/fullcalendar/) implements a good alternative to GCal
+* [Mailpile](https://github.com/pagekite/Mailpile) has a rather nice mail backend with searches and stuff.
 
 Other links
 -----------
